@@ -15,10 +15,10 @@ class User extends Component {
 
   updateUser(newEmail) {
     console.log(`Entered User.updateUser, email: ${newEmail}`);
-    /* this.setState({
-            email: newEmail,
-            isLoggedIn: false
-        }); */
+    this.setState({
+      email: newEmail,
+      isLoggedIn: true,
+    });
   }
 
   render() {

@@ -2,18 +2,19 @@ import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
 import "./Login.css";
 
-const users = [{ username: "mahdi@gmail.com", password: 1111 }];
+const users = [{ email: "mahdi@gmail.com", password: 1111 }];
 
 const mockServer = (body) =>
   new Promise((res, reject) => {
     const object = JSON.parse(body);
     console.log("obj", object);
-    if (
-      users.find(
-        (item) =>
-          item.username === object.username && item.password === object.password
-      )
+    console.log(users[0]);
+    const index = users.findIndex(
+      (item) =>
+        item.email === object.email && item.password === Number(object.password)
     )
+    console.log(index);
+    if (index !== -1)
       res("success");
     reject("fail");
   });
@@ -57,16 +58,18 @@ class Login extends Component {
       body: data
     }) */
     console.log(data);
-    /* try {
+    try {
       const res = await mockServer(data);
       this.handleResponse(res);
     } catch (err) {
-      // alert("Server error, please try again.");
       console.error(err);
-    } */
+      alert("Server error, please try again.");
+    }
   }
 
   handleSubmit(event) {
+    event.preventDefault();
+    // const data = `{"email": "${this.state.email}", "password": "${this.state.password}"}`
     const data = { email: this.state.email, password: this.state.password };
     this.sendLoginRequest(JSON.stringify(data));
   }
@@ -75,6 +78,14 @@ class Login extends Component {
     return (
       <div id="container" className="col-md-12" align="center">
         <div id="vertical-center-div" className="col-sm-4 card bg-light">
+          <div>
+            {users.map((item) => (
+              <div>
+              <p> {item.email} </p>
+              <p> {item.password} </p>
+              </div>
+            ))}
+          </div>
           <Form onSubmit={this.handleSubmit}>
             <Form.Label className="display-4 text-secondary">Login</Form.Label>
             <Form.Group controlId="formBasicEmail">
